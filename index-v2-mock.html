@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPC — V2 Mock: Subtle Visuals</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/img/opc_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Prevent horizontal overflow on mobile */
+    html, body {
+      overflow-x: hidden;
+    }
+
+    /* --- Hero V2: Centered logo-centric layout --- */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Stats bar pinned to bottom of hero */
+    .hero-stats {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      padding: 0 80px 120px;
+    }
+    .hero-stats .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .hero-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 78px;
+      margin-top: -80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      min-height: auto;
+    }
+
+    .hero-content {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 720px;
+      padding-right: 0;
+      z-index: 2;
+    }
+
+    .hero-subtitle {
+      margin-bottom: 56px;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    /* Logo centerpiece */
+    .hero-logo {
+      margin-bottom: 56px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-logo-img {
+      width: 160px;
+      height: auto;
+      filter: drop-shadow(0 0 40px rgba(21, 112, 239, 0.4))
+              drop-shadow(0 0 80px rgba(21, 112, 239, 0.2));
+    }
+
+    /* Radial glow behind logo */
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle,
+        rgba(21, 112, 239, 0.15) 0%,
+        rgba(21, 112, 239, 0.05) 40%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Faded hero image as background texture */
+    .hero-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      -webkit-mask-image: radial-gradient(
+        ellipse 70% 60% at 50% 40%,
+        rgba(0,0,0,0.6) 0%,
+        rgba(0,0,0,0.3) 50%,
+        transparent 100%
+      );
+      mask-image: radial-gradient(
+        ellipse 70% 60% at 50% 40%,
+        rgba(0,0,0,0.6) 0%,
+        rgba(0,0,0,0.3) 50%,
+        transparent 100%
+      );
+    }
+
+    .hero-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.45;
+      filter: blur(2px);
+    }
+
+    .hero-image { display: none; }
+
+    /* --- Hero V2 Keyframes --- */
+
+    @keyframes heroLogoReveal {
+      from { opacity: 0; transform: scale(0.7) translateY(-30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { filter: drop-shadow(0 0 40px rgba(21,112,239,0.4)) drop-shadow(0 0 80px rgba(21,112,239,0.2)); }
+      50% { filter: drop-shadow(0 0 60px rgba(21,112,239,0.6)) drop-shadow(0 0 100px rgba(21,112,239,0.3)); }
+    }
+
+    @keyframes glowBreathe {
+      0%, 100% { opacity: 1; transform: translate(-50%, -60%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -60%) scale(1.15); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 300% center; }
+      100% { background-position: -300% center; }
+    }
+
+    /* --- Hero V2 Animation Application --- */
+
+    .hero-logo-img {
+      animation: heroLogoReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both,
+                 logoPulse 4s ease-in-out 1.5s infinite;
+    }
+
+    .hero-glow {
+      animation: glowBreathe 6s ease-in-out infinite;
+    }
+
+    .hero-title {
+      background: linear-gradient(
+        90deg,
+        var(--color-text-primary) 0%,
+        var(--color-text-primary) 40%,
+        var(--color-brand-light) 50%,
+        var(--color-text-primary) 60%,
+        var(--color-text-primary) 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 0.6s ease 0.3s both,
+                 shimmer 6s ease-in-out 1.2s 1;
+    }
+
+    .hero-subtitle {
+      animation: fadeInUp 0.6s ease 0.5s both;
+    }
+
+    .hero-actions {
+      animation: fadeInUp 0.6s ease 0.7s both;
+    }
+
+    /* --- Hero V2 Responsive --- */
+
+    @media (max-width: 1440px) {
+      .hero { min-height: auto; padding-bottom: 180px; }
+      .hero-container { padding: 120px 40px 60px; }
+      .hero-glow { width: 500px; height: 500px; }
+      .hero-stats { padding: 0 40px 100px; }
+    }
+
+    @media (max-width: 992px) {
+      .hero { min-height: auto; padding-bottom: 0; }
+      .hero-container { padding: 60px 40px 48px; flex-direction: column; }
+      .hero-content { width: 100%; margin-bottom: 0; }
+      .hero-title { font-size: 42px; line-height: 52px; }
+      .hero-logo-img { width: 120px; }
+      .hero-glow { width: 400px; height: 400px; }
+      .hero-stats { position: relative; padding: 0 40px 60px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-container { padding: 40px 16px 32px; }
+      .hero-title { font-size: 32px; line-height: 40px; }
+      .hero-subtitle { font-size: 16px; margin-bottom: 32px; }
+      .hero-actions { flex-direction: column; }
+      .hero-logo { margin-bottom: 24px; }
+      .hero-logo-img { width: 100px; }
+      .hero-glow { width: 300px; height: 300px; }
+      .hero-stats { padding: 0 16px 32px; }
+    }
+
+    /* --- About V2: Three Pillar Cards --- */
+    .about {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 80px;
+      min-height: auto;
+    }
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      padding: 0;
+      min-height: auto;
+    }
+    .about-image { display: none; }
+
+    .about-header {
+      text-align: center;
+      max-width: 720px;
+      margin-bottom: 56px;
+    }
+    .about-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-brand-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .about-header h2 {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.72px;
+      line-height: 44px;
+      margin-bottom: 16px;
+      color: var(--color-text-primary);
+    }
+    .about-header-desc {
+      font-size: 20px;
+      color: var(--color-text-secondary);
+      line-height: 30px;
+    }
+
+    .about-cards {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      margin-bottom: 48px;
+    }
+    .about-card {
+      flex: 1;
+      background: var(--color-bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-xl);
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .about-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(10, 13, 18, 0.3);
+    }
+    .about-card-icon {
+      width: 64px;
+      height: 64px;
+      background: #194185;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .about-card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 12px;
+    }
+    .about-card-desc {
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      line-height: 24px;
+    }
+    .about-cta {
+      text-align: center;
+    }
+
+    /* About backdrop */
+    .about-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);
+    }
+    .about-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.06;
+      filter: blur(4px);
+    }
+
+    /* About responsive */
+    @media (max-width: 992px) {
+      .about { padding: 80px 40px; }
+      .about-cards { flex-direction: column; max-width: 480px; margin-left: auto; margin-right: auto; }
+    }
+    @media (max-width: 640px) {
+      .about { padding: 64px 16px; }
+      .about-header h2 { font-size: 28px; line-height: 36px; }
+      .about-header-desc { font-size: 17px; }
+      .about-card { padding: 32px 24px; }
+    }
+
+    /* ============================================= */
+    /* === MOCK: Subtle visual enhancements below === */
+    /* ============================================= */
+
+    /* --- Why Join: faded backdrop + subtle glow --- */
+    .why-join {
+      position: relative;
+      overflow: hidden;
+    }
+    .section-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .section-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.05;
+      filter: blur(6px) saturate(0.6);
+    }
+    /* Mask fades edges so image blends into the dark bg */
+    .section-backdrop--center {
+      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+    }
+    /* Variant: image weighted to bottom for Latest News */
+    .section-backdrop--bottom {
+      -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 70%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      mask-image: radial-gradient(ellipse 100% 90% at 50% 70%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+    }
+    .why-join .section-header,
+    .why-join .why-join-cards {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Subtle blue accent glow for Why Join (echoes hero glow) */
+    .section-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(21, 112, 239, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* --- Latest News: backdrop + glow for atmosphere --- */
+    .latest-news {
+      position: relative;
+      overflow: hidden;
+    }
+    .latest-news .latest-news-container {
+      position: relative;
+      z-index: 2;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="logo">
+          <img src="assets/img/opc_logo.png" alt="OPC Europe" width="76" height="56">
+        </a>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="ranking.html" class="nav-link">Rankings</a>
+          <a href="tournaments.html" class="nav-link">Tournaments</a>
+          <a href="news.html" class="nav-link">News</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link">Countries
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="countries/netherlands.html">Netherlands</a>
+              <a href="countries/belgium.html">Belgium</a>
+              <a href="countries/germany.html">Germany</a>
+              <a href="countries/england.html">England</a>
+              <a href="countries/poland.html">Poland</a>
+              <a href="countries/austria.html">Austria</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="#about" class="nav-link">About OPC
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="#about">About OPC</a>
+              <a href="contact.html">Contact</a>
+              <a href="responsible-gaming.html">Responsible Gaming</a>
+            </div>
+          </div>
+          <a href="#join" class="btn btn-primary nav-mobile-cta">How to join</a>
+        </nav>
+      </div>
+      <a href="#join" class="btn btn-primary">How to join</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section — V2: Centered logo-centric -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+
+    <div class="hero-container">
+      <div class="hero-logo">
+        <img src="assets/img/opc_logo.png" alt="OPC Europe" class="hero-logo-img">
+      </div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">European Open Poker Championship</h1>
+        <p class="hero-subtitle">Play Local Tournaments. Earn International Rankings.</p>
+        <div class="hero-actions">
+          <a href="ranking.html" class="btn btn-primary">
+            View Rankings
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83 14.17L14.17 5.83M14.17 5.83H7.5M14.17 5.83V12.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="contact.html" class="btn btn-outline">Are you tournament organizer?</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stats-container reveal-stagger">
+        <div class="stat-card reveal">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9H2L7.5 13.5L5.5 21L12 16.5L18.5 21L16.5 13.5L22 9H15L12 2Z"/><path d="M12 16.5V21"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="stat-text">
+            <span class="stat-number">250+</span>
+            <span class="stat-label">Verified Players</span>
+          </div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="stat-text">
+            <span class="stat-number">20+</span>
+            <span class="stat-label">Tournaments</span>
+          </div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12H22"/><path d="M12 2C14.5 4.73 15.74 8.24 16 12C15.74 15.76 14.5 19.27 12 22C9.5 19.27 8.26 15.76 8 12C8.26 8.24 9.5 4.73 12 2Z"/></svg>
+          </div>
+          <div class="stat-text">
+            <span class="stat-number">5</span>
+            <span class="stat-label">Countries</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card-avatars reveal">
+          <div class="stat-avatars">
+            <a href="partners/luxon-pay.html"><img src="assets/img/logos/luxon-pay-600x600-1.jpg" alt="Luxon Pay" class="avatar"></a>
+            <a href="partners/ipr.html"><img src="assets/img/logos/ipr-logo-400x400.jpg" alt="International Poker Rules" class="avatar"></a>
+            <a href="partners/juice-brothers.html"><img src="assets/img/logos/JuiceBrothers.png" alt="Juice Brothers" class="avatar"></a>
+            <a href="partners/arend-klein.html"><img src="assets/img/logos/arend-klein-200x231.webp" alt="Poker Arend" class="avatar avatar--contain"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-backdrop">
+      <img src="assets/img/hero.png" alt="">
+    </div>
+  </section>
+
+  <!-- What is OPC Section -->
+  <section class="about" id="about">
+    <div class="about-backdrop">
+      <img src="assets/img/what-is-opc.png" alt="">
+    </div>
+    <div class="about-container">
+      <div class="about-header">
+        <span class="about-label">About OPC</span>
+        <h2>What is OPC?</h2>
+        <p class="about-header-desc">OPC connects live poker tournaments across Europe into one international ranking system. Players compete locally and earn points towards a European championship.</p>
+      </div>
+
+      <div class="about-cards reveal-stagger">
+        <div class="about-card reveal">
+          <div class="about-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+          </div>
+          <h3 class="about-card-title">International Rankings</h3>
+          <p class="about-card-desc">Compete in local tournaments and earn points that count towards the European championship standings.</p>
+        </div>
+        <div class="about-card reveal">
+          <div class="about-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="about-card-title">Verified & Fair</h3>
+          <p class="about-card-desc">All events are verified, all players are age-checked. Fair play is guaranteed across every tournament.</p>
+        </div>
+        <div class="about-card reveal">
+          <div class="about-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3 class="about-card-title">Free for Everyone</h3>
+          <p class="about-card-desc">No cost for players or organizers. No hidden fees, no catches — just poker.</p>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <a href="#join" class="btn btn-primary">Join OPC</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Join Section — MOCK: added backdrop + glow -->
+  <section class="why-join">
+    <div class="section-backdrop section-backdrop--center">
+      <img src="assets/img/cards.png" alt="">
+    </div>
+    <div class="section-glow"></div>
+    <div class="section-header">
+      <span class="section-label">Benefits for players and organizers</span>
+      <h2>Why join OPC?</h2>
+    </div>
+    <div class="why-join-cards">
+      <div class="benefit-card benefit-card--highlighted reveal">
+        <div class="benefit-card-content">
+          <div class="benefit-header">
+            <h3>FOR PLAYERS</h3>
+            <p class="benefit-subtitle">Play. Compete. Get Ranked</p>
+          </div>
+          <ul class="check-list">
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Find tournaments across Europe</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Get ranked internationally</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>One verification, unlimited tournaments</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Track your progress across all events</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified, fair play environment</li>
+          </ul>
+        </div>
+      </div>
+      <div class="benefit-card reveal">
+        <div class="benefit-card-content">
+          <div class="benefit-header">
+            <h3>FOR ORGANIZERS</h3>
+            <p class="benefit-subtitle">Partner. Grow. Succeed.</p>
+          </div>
+          <ul class="check-list">
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>We're NOT competition</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>No cost, no extra work</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>International sponsorship and media</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Shared player rankings</li>
+            <li><span class="check-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#194185"/><path d="M7.5 12.5L10.5 15.5L16.5 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Extra visibility via our promotion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works / Pricing Section -->
+  <section class="how-it-works" id="join">
+    <div class="section-header">
+      <span class="section-label">How it works</span>
+      <h2>Getting Started</h2>
+      <p class="section-description">Join OPC as a player or organizer — it's simple and free.</p>
+    </div>
+    <div class="how-cards">
+      <div class="how-card how-card--highlighted reveal">
+        <div class="how-card-content">
+          <h3 class="how-card-title">For Players</h3>
+          <div class="how-steps">
+            <svg class="how-steps-line" viewBox="0 0 80 200" fill="none">
+              <path d="M40 0 C75 25, 75 75, 40 100 C5 125, 5 175, 40 200"
+                    stroke="#2e90fa" stroke-width="2" stroke-dasharray="6 6" stroke-opacity="0.35" fill="none"/>
+            </svg>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Find a tournament</h4>
+                <p>Browse verified OPC tournaments in your area or across Europe.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><rect x="2" y="4" width="8" height="12" rx="1"/><rect x="14" y="4" width="8" height="12" rx="1"/><path d="M6 20L12 16L18 20"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Play and compete</h4>
+                <p>Participate in local events and earn ranking points.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Climb the rankings</h4>
+                <p>Track your progress and compete for the European championship.</p>
+              </div>
+            </div>
+          </div>
+          <div class="how-card-footer">
+            <p class="how-footer-text">Free to join. Start playing today.</p>
+            <a href="contact.html" class="btn btn-primary">Register as Player</a>
+          </div>
+        </div>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-card-content">
+          <h3 class="how-card-title">For Organizers</h3>
+          <div class="how-steps">
+            <svg class="how-steps-line" viewBox="0 0 80 200" fill="none">
+              <path d="M40 0 C75 25, 75 75, 40 100 C5 125, 5 175, 40 200"
+                    stroke="#2e90fa" stroke-width="2" stroke-dasharray="6 6" stroke-opacity="0.35" fill="none"/>
+            </svg>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"/><path d="M14 2V8H20"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Apply to join</h4>
+                <p>Submit your tournament details for verification.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Upload results</h4>
+                <p>Share tournament results to feed the ranking system.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <div class="step-icon">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#2e90fa" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div class="step-text">
+                <h4>Grow together</h4>
+                <p>Get visibility, sponsorship opportunities, and more players.</p>
+              </div>
+            </div>
+          </div>
+          <div class="how-card-footer">
+            <p class="how-footer-text">Free for all organizers.</p>
+            <a href="contact.html" class="btn btn-outline">Become Partner</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest News Section -->
+  <section class="latest-news reveal">
+    <div class="latest-news-container">
+      <h2 class="section-title">Latest News</h2>
+      <p class="section-subtitle">Stay up to date with tournament results, announcements, and stories from the OPC community.</p>
+      <div class="latest-news-actions">
+        <a href="news.html" class="btn btn-primary">Read News</a>
+        <a href="blog.html" class="btn btn-outline">Visit Blog</a>
+        <a href="events.html" class="btn btn-outline">Event Updates</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Section -->
+  <section class="events" id="tournaments">
+    <div class="section-header">
+      <span class="section-label">Tournaments</span>
+      <h2>Upcoming Events</h2>
+    </div>
+    <div class="events-grid reveal-stagger">
+      <a href="tournament-detail.html" class="event-card reveal">
+        <h4 class="event-title">Amsterdam Open</h4>
+        <div class="event-details">
+          <div class="event-avatar">
+            <img src="assets/img/tournament_placeholder.png" alt="Tournament">
+          </div>
+          <div class="event-info">
+            <div class="event-row">
+              <img src="assets/flag-nl.svg" alt="NL" class="event-flag">
+              <div>
+                <span class="event-name">Amsterdam Poker Club</span>
+                <span class="event-location">Amsterdam, NL</span>
+              </div>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>March 15, 2026</span>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h4l2-6"/></svg>
+              <span>Free entry</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="tournament-detail.html" class="event-card reveal">
+        <h4 class="event-title">Rotterdam Series</h4>
+        <div class="event-details">
+          <div class="event-avatar">
+            <img src="assets/img/tournament_placeholder.png" alt="Tournament">
+          </div>
+          <div class="event-info">
+            <div class="event-row">
+              <img src="assets/flag-nl.svg" alt="NL" class="event-flag">
+              <div>
+                <span class="event-name">De Kaart Club</span>
+                <span class="event-location">Rotterdam, NL</span>
+              </div>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>April 2, 2026</span>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h4l2-6"/></svg>
+              <span>Free entry</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="tournament-detail.html" class="event-card reveal">
+        <h4 class="event-title">Berlin Poker Cup</h4>
+        <div class="event-details">
+          <div class="event-avatar">
+            <img src="assets/img/tournament_placeholder.png" alt="Tournament">
+          </div>
+          <div class="event-info">
+            <div class="event-row">
+              <img src="assets/flag-nl.svg" alt="DE" class="event-flag">
+              <div>
+                <span class="event-name">Berlin Poker Verein</span>
+                <span class="event-location">Berlin, DE</span>
+              </div>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>April 20, 2026</span>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h4l2-6"/></svg>
+              <span>Free entry</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="tournament-detail.html" class="event-card reveal">
+        <h4 class="event-title">Brussels Classic</h4>
+        <div class="event-details">
+          <div class="event-avatar">
+            <img src="assets/img/tournament_placeholder.png" alt="Tournament">
+          </div>
+          <div class="event-info">
+            <div class="event-row">
+              <img src="assets/flag-nl.svg" alt="BE" class="event-flag">
+              <div>
+                <span class="event-name">Brussels Poker League</span>
+                <span class="event-location">Brussels, BE</span>
+              </div>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>May 10, 2026</span>
+            </div>
+            <div class="event-row">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#535862" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h4l2-6"/></svg>
+              <span>Free entry</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="events-cta">
+      <a href="tournaments.html" class="btn btn-outline">View All Tournaments</a>
+    </div>
+  </section>
+
+  <!-- Founders Section -->
+  <section class="founders">
+    <div class="section-header">
+      <span class="section-label">Our Founders</span>
+      <h2>Founded by Poker Legends</h2>
+    </div>
+
+    <div class="founder-block founder-block--reversed reveal">
+      <div class="founder-info">
+        <p class="founder-quote">Marcel L&uuml;ske, the founder of OPC, is a professional poker player with over $5 million in career tournament earnings and 20+ years of experience. European Player of the Year (2001, 2002), ranked #1 in Europe, and founder of the International Poker Rules (FIDPA).
+Now bringing transparency, fairness, and international standards to European amateur poker through OPC.</p>
+        <a href="about.html" class="btn btn-outline">Read full story</a>
+      </div>
+      <div class="founder-image">
+        <img src="assets/img/marcelluske.jpg" alt="Marcel Lüske">
+        <div class="founder-name-role founder-name-role--centered">
+          <h3>Marcel L&uuml;ske</h3>
+          <span>"The Flying Dutchman"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="founder-block founder-block--reversed reveal">
+      <div class="founder-image">
+        <img src="assets/img/noahboeken.png" alt="Noah Boeken">
+        <div class="founder-name-role founder-name-role--centered">
+          <h3>Noah Boeken</h3>
+        </div>
+      </div>
+      <div class="founder-info">
+        <p class="founder-quote">Noah Boeken is a legendary Dutch professional poker player who rose to fame as a Magic: The Gathering European Champion before becoming the first Dutchman to win an EPT title in 2005. A prot&eacute;g&eacute; of Marcel L&uuml;ske, he has amassed over $2.9 million in live tournament earnings, including a major victory at the Master Classics of Poker.</p>
+        <a href="about.html" class="btn btn-outline">Read full story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners Section -->
+  <section class="partners">
+    <div class="partners-inner">
+      <div class="partners-logos reveal">
+        <h2>Partners</h2>
+        <div class="logo-row">
+          <a href="partners/luxon-pay.html"><img src="assets/img/logos/luxon-pay-600x600-1.jpg" alt="Luxon Pay" class="partner-logo" loading="lazy"></a>
+          <a href="partners/ipr.html"><img src="assets/img/logos/ipr-logo-400x400.jpg" alt="International Poker Rules" class="partner-logo" loading="lazy"></a>
+          <a href="partners/juice-brothers.html"><img src="assets/img/logos/JuiceBrothers.png" alt="Juice Brothers" class="partner-logo" loading="lazy"></a>
+          <a href="partners/arend-klein.html"><img src="assets/img/logos/arend-klein-200x231.webp" alt="Poker Arend" class="partner-logo" loading="lazy"></a>
+        </div>
+      </div>
+      <div class="partners-text reveal">
+        <h2>Join our growing network</h2>
+        <p>Tournament organizers across Europe are partnering with OPC to offer their players international recognition.</p>
+        <a href="contact.html" class="btn btn-primary">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/img/opc_logo.png" alt="OPC Europe" width="76" height="56">
+          <p>Open Poker Championship</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>About</h4>
+            <a href="#about">What is OPC</a>
+            <a href="#join">How it works</a>
+            <a href="index.html#about">Our mission</a>
+          </div>
+          <div class="footer-col">
+            <h4>For Players</h4>
+            <a href="ranking.html">Rankings</a>
+            <a href="tournaments.html">Tournaments</a>
+            <a href="contact.html">Get verified</a>
+          </div>
+          <div class="footer-col">
+            <h4>For organizers</h4>
+            <a href="contact.html">Partner with us</a>
+            <a href="index.html#join">Partnership benefits</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="responsible-gaming.html">Responsible Gaming</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OPC Europe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-reveal observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('reveal--visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('.header').classList.toggle('header--scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav');
+    if (navToggle && nav) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('nav--open');
+        navToggle.classList.toggle('nav-toggle--active', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('nav--open');
+          navToggle.classList.remove('nav-toggle--active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rankings — OPC Europe</title>
+  <meta name="description" content="View the official OPC Europe player rankings and leaderboard. Track top poker players across all European championship tournaments.">
+  <meta name="theme-color" content="#0c0e12">
+  <link rel="canonical" href="https://opc-europe.com/ranking.html">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Rankings — OPC Europe">
+  <meta property="og:description" content="View the official OPC Europe player rankings and leaderboard. Track top poker players across all European championship tournaments.">
+  <meta property="og:image" content="https://opc-europe.com/assets/img/og-image.jpg">
+  <meta property="og:url" content="https://opc-europe.com/ranking.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OPC Europe">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rankings — OPC Europe">
+  <meta name="twitter:description" content="View the official OPC Europe player rankings and leaderboard. Track top poker players across all European championship tournaments.">
+  <meta name="twitter:image" content="https://opc-europe.com/assets/img/og-image.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/img/opc_logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html" class="logo">
+          <img src="assets/img/opc_logo.png" alt="OPC Europe" width="76" height="56">
+        </a>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="ranking.html" class="nav-link">Rankings</a>
+          <a href="tournaments.html" class="nav-link">Tournaments</a>
+          <a href="news.html" class="nav-link">News</a>
+          <a href="partners/overview.html" class="nav-link">Partners</a>
+          <div class="nav-dropdown">
+            <a href="#" class="nav-link">Countries
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="countries/netherlands.html">Netherlands</a>
+              <a href="countries/belgium.html">Belgium</a>
+              <a href="countries/germany.html">Germany</a>
+              <a href="countries/england.html">England</a>
+              <a href="countries/poland.html">Poland</a>
+              <a href="countries/austria.html">Austria</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <a href="about.html" class="nav-link">About OPC
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="nav-dropdown-menu">
+              <a href="about.html">About OPC</a>
+              <a href="contact.html">Contact</a>
+              <a href="responsible-gaming.html">Responsible Gaming</a>
+            </div>
+          </div>
+          <a href="index.html#join" class="btn btn-primary nav-mobile-cta">How to join</a>
+        </nav>
+      </div>
+      <a href="index.html#join" class="btn btn-primary">How to join</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Ranking Page -->
+  <section class="ranking-page">
+    <div class="ranking-container">
+      <div class="ranking-header">
+        <h1 class="ranking-title">International European OPC Rating</h1>
+        <p class="ranking-subtitle">Live rankings of verified players across Europe</p>
+        <p class="ranking-meta" id="ranking-meta">Loading rankings...</p>
+      </div>
+
+      <div class="ranking-controls">
+        <div class="ranking-search">
+          <svg class="ranking-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94969c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21L16.65 16.65"/>
+          </svg>
+          <input type="text" class="ranking-search-input" placeholder="Search name">
+        </div>
+        <div class="ranking-filter">
+          <button class="ranking-filter-btn" type="button">
+            All Countries
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="ranking-filter-dropdown">
+            <button class="ranking-filter-option ranking-filter-option--active" data-country="">All Countries</button>
+            <button class="ranking-filter-option" data-country="Netherlands">Netherlands</button>
+            <button class="ranking-filter-option" data-country="Belgium">Belgium</button>
+            <button class="ranking-filter-option" data-country="Germany">Germany</button>
+            <button class="ranking-filter-option" data-country="Poland">Poland</button>
+            <button class="ranking-filter-option" data-country="Ireland">Ireland</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ranking-layout">
+        <div class="ranking-table-wrapper">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th class="ranking-col-rank">#</th>
+                <th class="ranking-col-avatar"></th>
+                <th class="ranking-col-name">Name</th>
+                <th class="ranking-col-nationality">Nationality</th>
+                <th class="ranking-col-points">Total Points</th>
+                <th class="ranking-col-played">Country</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-tbody">
+              <!-- Populated dynamically from Supabase -->
+            </tbody>
+          </table>
+        </div>
+        <aside class="ranking-sidebar">
+          <div class="ranking-sidebar-card">
+            <h3>How Rankings work</h3>
+            <ul>
+              <li>Players earn ranking points based on finishing position and tournament size.</li>
+              <li>Your best 10 results from the past 12 months count towards your ranking.</li>
+              <li>Larger tournaments with more players award more ranking points.</li>
+              <li>Rankings update within 48 hours after each OPC-verified tournament.</li>
+              <li>Players must be verified and registered with OPC to appear in rankings.</li>
+            </ul>
+            <a href="about.html" class="link-arrow">
+              Read full rules
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83 14.17L14.17 5.83M14.17 5.83H7.5M14.17 5.83V12.5" stroke="currentColor" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <nav class="ranking-pagination">
+        <a href="#" class="pagination-btn pagination-prev">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Previous
+        </a>
+        <div class="pagination-pages">
+          <a href="#" class="pagination-page pagination-page--active">1</a>
+          <a href="#" class="pagination-page">2</a>
+          <a href="#" class="pagination-page">3</a>
+          <span class="pagination-ellipsis">...</span>
+          <a href="#" class="pagination-page">7</a>
+        </div>
+        <a href="#" class="pagination-btn pagination-next">
+          Next
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/img/opc_logo.png" alt="OPC Europe" width="76" height="56">
+          <p>Open Poker Championship</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>About</h4>
+            <a href="about.html">What is OPC</a>
+            <a href="index.html#join">How it works</a>
+            <a href="about.html">Our mission</a>
+          </div>
+          <div class="footer-col">
+            <h4>For Players</h4>
+            <a href="ranking.html">Rankings</a>
+            <a href="tournaments.html">Tournaments</a>
+            <a href="contact.html">Get verified</a>
+          </div>
+          <div class="footer-col">
+            <h4>For organizers</h4>
+            <a href="contact.html">Partner with us</a>
+            <a href="index.html#join">Partnership benefits</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="responsible-gaming.html">Responsible Gaming</a>
+            <a href="terms.html">Terms &amp; Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 OPC Europe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Config ───
+    const SUPABASE_URL = 'https://uxlnhyeijfeiurwleecy.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4bG5oeWVpamZlaXVyd2xlZWN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMDEzNzMsImV4cCI6MjA4ODU3NzM3M30.eTN24hvQjitsLvOXo7hAs92YIQprgjks6rfhzkmdbgY';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const PAGE_SIZE = 50;
+    let allPlayers = [];
+    let filteredPlayers = [];
+    let currentPage = 1;
+    let activeCountry = '';
+
+    // ─── Avatar colors (deterministic from name) ───
+    const AVATAR_COLORS = ['#2e90fa','#6941c6','#c4320a','#067647','#b93815','#363f72','#5925dc','#c11574'];
+    function hashCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      return Math.abs(hash);
+    }
+    function getInitials(name) {
+      const parts = name.trim().split(/\s+/);
+      if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      return name.substring(0, 2).toUpperCase();
+    }
+    function avatarSVG(name) {
+      const color = AVATAR_COLORS[hashCode(name) % AVATAR_COLORS.length];
+      const initials = getInitials(name);
+      return `<svg class="ranking-avatar" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="${color}"/><text x="16" y="21" text-anchor="middle" fill="#fff" font-size="13" font-family="Inter,sans-serif" font-weight="600">${initials}</text></svg>`;
+    }
+
+    // ─── Flag SVGs ───
+    const FLAGS = {
+      Netherlands: '<svg class="ranking-flag-round" viewBox="0 0 24 24"><clipPath id="f-nl"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#f-nl)"><rect width="24" height="8" fill="#AE1C28"/><rect y="8" width="24" height="8" fill="#FFF"/><rect y="16" width="24" height="8" fill="#21468B"/></g></svg>',
+      Belgium: '<svg class="ranking-flag-round" viewBox="0 0 24 24"><clipPath id="f-be"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#f-be)"><rect width="8" height="24" fill="#000"/><rect x="8" width="8" height="24" fill="#FDDA24"/><rect x="16" width="8" height="24" fill="#EF3340"/></g></svg>',
+      Germany: '<svg class="ranking-flag-round" viewBox="0 0 24 24"><clipPath id="f-de"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#f-de)"><rect width="24" height="8" fill="#000"/><rect y="8" width="24" height="8" fill="#DD0000"/><rect y="16" width="24" height="8" fill="#FFCC00"/></g></svg>',
+      Poland: '<svg class="ranking-flag-round" viewBox="0 0 24 24"><clipPath id="f-pl"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#f-pl)"><rect width="24" height="12" fill="#FFF"/><rect y="12" width="24" height="12" fill="#DC143C"/></g></svg>',
+      Ireland: '<svg class="ranking-flag-round" viewBox="0 0 24 24"><clipPath id="f-ie"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#f-ie)"><rect width="8" height="24" fill="#169B62"/><rect x="8" width="8" height="24" fill="#FFF"/><rect x="16" width="8" height="24" fill="#FF883E"/></g></svg>'
+    };
+    function flagSVG(nationality) {
+      return FLAGS[nationality] || '';
+    }
+
+    // ─── Render table ───
+    function renderTable() {
+      const tbody = document.getElementById('ranking-tbody');
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageData = filteredPlayers.slice(start, start + PAGE_SIZE);
+
+      tbody.innerHTML = pageData.map(p => {
+        const isTop = p.rank <= 3 ? ' ranking-row--top' : '';
+        return `<tr class="ranking-row${isTop}">
+          <td>${p.rank}</td>
+          <td>${avatarSVG(p.name)}</td>
+          <td>${p.name}</td>
+          <td>${p.nationality}</td>
+          <td>${p.total_points}</td>
+          <td>${flagSVG(p.nationality)}</td>
+        </tr>`;
+      }).join('');
+
+      renderPagination();
+    }
+
+    // ─── Pagination ───
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredPlayers.length / PAGE_SIZE);
+      const pagesDiv = document.querySelector('.pagination-pages');
+      pagesDiv.innerHTML = '';
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+      if (startPage > 1) {
+        pagesDiv.innerHTML += `<a href="#" class="pagination-page" data-page="1">1</a>`;
+        if (startPage > 2) pagesDiv.innerHTML += `<span class="pagination-ellipsis">...</span>`;
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        const active = i === currentPage ? ' pagination-page--active' : '';
+        pagesDiv.innerHTML += `<a href="#" class="pagination-page${active}" data-page="${i}">${i}</a>`;
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) pagesDiv.innerHTML += `<span class="pagination-ellipsis">...</span>`;
+        pagesDiv.innerHTML += `<a href="#" class="pagination-page" data-page="${totalPages}">${totalPages}</a>`;
+      }
+
+      // Bind page clicks
+      pagesDiv.querySelectorAll('.pagination-page').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          currentPage = parseInt(el.dataset.page);
+          renderTable();
+          document.querySelector('.ranking-table-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Prev/Next
+      const prevBtn = document.querySelector('.pagination-prev');
+      const nextBtn = document.querySelector('.pagination-next');
+      prevBtn.style.opacity = currentPage <= 1 ? '0.4' : '1';
+      prevBtn.style.pointerEvents = currentPage <= 1 ? 'none' : '';
+      nextBtn.style.opacity = currentPage >= totalPages ? '0.4' : '1';
+      nextBtn.style.pointerEvents = currentPage >= totalPages ? 'none' : '';
+    }
+
+    // ─── Filter + Search ───
+    function applyFilters() {
+      const query = document.querySelector('.ranking-search-input').value.toLowerCase().trim();
+      filteredPlayers = allPlayers.filter(p => {
+        const matchesSearch = !query || p.name.toLowerCase().includes(query);
+        const matchesCountry = !activeCountry || p.nationality === activeCountry;
+        return matchesSearch && matchesCountry;
+      });
+      currentPage = 1;
+      renderTable();
+    }
+
+    // ─── Load data ───
+    async function loadRankings() {
+      const { data, error } = await sb.from('master_players')
+        .select('rank,name,nationality,total_points')
+        .order('rank', { ascending: true });
+
+      if (error) {
+        document.getElementById('ranking-meta').textContent = 'Failed to load rankings.';
+        console.error(error);
+        return;
+      }
+
+      allPlayers = data || [];
+      filteredPlayers = [...allPlayers];
+
+      const countries = [...new Set(allPlayers.map(p => p.nationality))];
+      document.getElementById('ranking-meta').textContent =
+        `${allPlayers.length} Players · ${countries.length} Countries · Live rankings`;
+
+      renderTable();
+    }
+
+    // ─── Init ───
+    document.querySelector('.ranking-search-input').addEventListener('input', applyFilters);
+
+    const filterBtn = document.querySelector('.ranking-filter-btn');
+    const filterDropdown = document.querySelector('.ranking-filter-dropdown');
+
+    filterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      filterDropdown.classList.toggle('ranking-filter-dropdown--open');
+    });
+
+    document.querySelectorAll('.ranking-filter-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        activeCountry = opt.dataset.country;
+        document.querySelectorAll('.ranking-filter-option').forEach(o => o.classList.remove('ranking-filter-option--active'));
+        opt.classList.add('ranking-filter-option--active');
+        filterBtn.childNodes[0].textContent = opt.textContent + ' ';
+        filterDropdown.classList.remove('ranking-filter-dropdown--open');
+        applyFilters();
+      });
+    });
+
+    document.addEventListener('click', () => {
+      filterDropdown.classList.remove('ranking-filter-dropdown--open');
+    });
+
+    document.querySelector('.pagination-prev').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (currentPage > 1) { currentPage--; renderTable(); }
+    });
+
+    document.querySelector('.pagination-next').addEventListener('click', (e) => {
+      e.preventDefault();
+      const totalPages = Math.ceil(filteredPlayers.length / PAGE_SIZE);
+      if (currentPage < totalPages) { currentPage++; renderTable(); }
+    });
+
+    // Scroll-reveal observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('reveal--visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('.header').classList.toggle('header--scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav');
+    if (navToggle && nav) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = nav.classList.toggle('nav--open');
+        navToggle.classList.toggle('nav-toggle--active', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('nav--open');
+          navToggle.classList.remove('nav-toggle--active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Load rankings on page load
+    loadRankings();
+  </script>
+
+</body>
+</html>
